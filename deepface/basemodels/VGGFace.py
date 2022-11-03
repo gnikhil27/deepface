@@ -74,7 +74,7 @@ def loadModel(url = 'https://github.com/serengil/deepface_models/releases/downlo
 	#-----------------------------------
 
 	home = functions.get_deepface_home()
-	output = home+'/.deepface/weights/vgg_face_weights.h5'
+	output = 'vgg_face_weights.h5'
 
 	if os.path.isfile(output) != True:
 		print("vgg_face_weights.h5 will be downloaded...")

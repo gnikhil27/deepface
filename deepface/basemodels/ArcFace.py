@@ -25,22 +25,22 @@ def loadModel(url = 'https://github.com/serengil/deepface_models/releases/downlo
 	embedding = keras.layers.BatchNormalization(momentum=0.9, epsilon=2e-5, name="embedding", scale=True)(arcface_model)
 	model = keras.models.Model(inputs, embedding, name=base_model.name)
 
-	#---------------------------------------
-	#check the availability of pre-trained weights
+	# ---------------------------------------
+	# check the availability of pre-trained weights
 
-	# home = functions.get_deepface_home()
+	home = functions.get_deepface_home()
 
-	# file_name = "arcface_weights.h5"
-	# output = home+'/.deepface/weights/'+file_name
+	file_name = "arcface_weights.h5"
+	output = ''+file_name
 
-	# if os.path.isfile(output) != True:
+	if os.path.isfile(output) != True:
 
-	# 	print(file_name," will be downloaded to ",output)
-	# 	gdown.download(url, output, quiet=False)
+		print(file_name," will be downloaded to ",output)
+		gdown.download(url, output, quiet=False)
 
-	#---------------------------------------
+	# ---------------------------------------
 	
-	# model.load_weights(output)
+	model.load_weights(output)
 
 	return model
 

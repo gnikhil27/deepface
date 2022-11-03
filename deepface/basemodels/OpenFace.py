@@ -236,15 +236,15 @@ def loadModel(url = 'https://github.com/serengil/deepface_models/releases/downlo
 
 	home = functions.get_deepface_home()
 
-	if os.path.isfile(home+'/.deepface/weights/openface_weights.h5') != True:
+	if os.path.isfile('openface_weights.h5') != True:
 		print("openface_weights.h5 will be downloaded...")
 
-		output = home+'/.deepface/weights/openface_weights.h5'
+		output = 'openface_weights.h5'
 		gdown.download(url, output, quiet=False)
 
 	#-----------------------------------
 
-	model.load_weights(home+'/.deepface/weights/openface_weights.h5')
+	model.load_weights('openface_weights.h5')
 
 	#-----------------------------------
 

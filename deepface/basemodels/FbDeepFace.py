@@ -28,18 +28,18 @@ def loadModel(url = 'https://github.com/swghosh/DeepFace/releases/download/weigh
 	
 	home = functions.get_deepface_home()
 	
-	if os.path.isfile(home+'/.deepface/weights/VGGFace2_DeepFace_weights_val-0.9034.h5') != True:
+	if os.path.isfile('VGGFace2_DeepFace_weights_val-0.9034.h5') != True:
 		print("VGGFace2_DeepFace_weights_val-0.9034.h5 will be downloaded...")
 		
-		output = home+'/.deepface/weights/VGGFace2_DeepFace_weights_val-0.9034.h5.zip'
+		output = 'VGGFace2_DeepFace_weights_val-0.9034.h5.zip'
 		
 		gdown.download(url, output, quiet=False)
 		
 		#unzip VGGFace2_DeepFace_weights_val-0.9034.h5.zip
 		with zipfile.ZipFile(output, 'r') as zip_ref:
-			zip_ref.extractall(home+'/.deepface/weights/')
+			zip_ref.extractall('')
 		
-	base_model.load_weights(home+'/.deepface/weights/VGGFace2_DeepFace_weights_val-0.9034.h5')	
+	base_model.load_weights('VGGFace2_DeepFace_weights_val-0.9034.h5')	
 	
 	#drop F8 and D0. F7 is the representation layer.
 	deepface_model = Model(inputs=base_model.layers[0].input, outputs=base_model.layers[-3].output)

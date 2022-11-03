@@ -46,13 +46,13 @@ def build_gbm():
 	
 	home = functions.get_deepface_home()
 	
-	if os.path.isfile(home+'/.deepface/weights/face-recognition-ensemble-model.txt') != True:
+	if os.path.isfile('face-recognition-ensemble-model.txt') != True:
 		print("face-recognition-ensemble-model.txt will be downloaded...")
 		url = 'https://raw.githubusercontent.com/serengil/deepface/master/deepface/models/face-recognition-ensemble-model.txt'
-		output = home+'/.deepface/weights/face-recognition-ensemble-model.txt'
+		output = 'face-recognition-ensemble-model.txt'
 		gdown.download(url, output, quiet=False)
 		
-	ensemble_model_path = home+'/.deepface/weights/face-recognition-ensemble-model.txt'
+	ensemble_model_path = 'face-recognition-ensemble-model.txt'
 	
 	deepface_ensemble = lgb.Booster(model_file = ensemble_model_path)
 	
