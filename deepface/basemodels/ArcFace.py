@@ -28,19 +28,19 @@ def loadModel(url = 'https://github.com/serengil/deepface_models/releases/downlo
 	#---------------------------------------
 	#check the availability of pre-trained weights
 
-	home = functions.get_deepface_home()
+	# home = functions.get_deepface_home()
 
-	file_name = "arcface_weights.h5"
-	output = home+'/.deepface/weights/'+file_name
+	# file_name = "arcface_weights.h5"
+	# output = home+'/.deepface/weights/'+file_name
 
-	if os.path.isfile(output) != True:
+	# if os.path.isfile(output) != True:
 
-		print(file_name," will be downloaded to ",output)
-		gdown.download(url, output, quiet=False)
+	# 	print(file_name," will be downloaded to ",output)
+	# 	gdown.download(url, output, quiet=False)
 
 	#---------------------------------------
 	
-	model.load_weights(output)
+	# model.load_weights(output)
 
 	return model
 
@@ -54,7 +54,7 @@ def ResNet34():
 	x = tensorflow.keras.layers.PReLU(shared_axes=[1, 2], name='conv1_prelu')(x)
 	x = stack_fn(x)
 
-	model = training.Model(img_input, x, name='ResNet34')
+	model = training.Model(img_input, x, name='ArcFace')
 
 	return model
 
