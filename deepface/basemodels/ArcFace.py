@@ -14,15 +14,15 @@ from deepface.commons import functions
 
 #url = "https://drive.google.com/uc?id=1LVB3CdVejpmGHM28BpqqkbZP5hDEcdZY"
 
-def loadModel(url = 'https://github.com/serengil/deepface_models/releases/download/v1.0/arcface_weights.h5'):
-	base_model = ResNet34()
+def loadModel(url = 'https://github.com/serengil/deepface_models/releases/download/v1.0/arcface_weights.h5', nname='test'):
+	base_model = ResNet34(nname)
 	inputs = base_model.inputs[0]
 	arcface_model = base_model.outputs[0]
 	arcface_model = keras.layers.BatchNormalization(momentum=0.9, epsilon=2e-5)(arcface_model)
 	arcface_model = keras.layers.Dropout(0.4)(arcface_model)
 	arcface_model = keras.layers.Flatten()(arcface_model)
 	arcface_model = keras.layers.Dense(512, activation=None, use_bias=True, kernel_initializer="glorot_normal")(arcface_model)
-	embedding = keras.layers.BatchNormalization(momentum=0.9, epsilon=2e-5, name="embedding", scale=True)(arcface_model)
+	embedding = keras.layers.BatchNormalization(momentum=0.9, epsilon=2e-5, name=nname+"embedding", scale=True)(arcface_model)
 	# return embedding
 	model = keras.models.Model(inputs, embedding, name=base_model.name)
 
@@ -45,17 +45,17 @@ def loadModel(url = 'https://github.com/serengil/deepface_models/releases/downlo
 
 	return model
 
-def ResNet34():
+def ResNet34(nname='test'):
 
 	img_input = tensorflow.keras.layers.Input(shape=(112, 112, 3))
 
-	x = tensorflow.keras.layers.ZeroPadding2D(padding=1, name='conv1_pad')(img_input)
-	x = tensorflow.keras.layers.Conv2D(64, 3, strides=1, use_bias=False, kernel_initializer='glorot_normal', name='conv1_conv')(x)
-	x = tensorflow.keras.layers.BatchNormalization(axis=3, epsilon=2e-5, momentum=0.9, name='conv1_bn')(x)
-	x = tensorflow.keras.layers.PReLU(shared_axes=[1, 2], name='conv1_prelu')(x)
-	x = stack_fn(x)
+	x = tensorflow.keras.layers.ZeroPadding2D(padding=1, name=nname+'conv1_pad')(img_input)
+	x = tensorflow.keras.layers.Conv2D(64, 3, strides=1, use_bias=False, kernel_initializer='glorot_normal', name=nname+'conv1_conv')(x)
+	x = tensorflow.keras.layers.BatchNormalization(axis=3, epsilon=2e-5, momentum=0.9, name=nname+'conv1_bn')(x)
+	x = tensorflow.keras.layers.PReLU(shared_axes=[1, 2], name=nname+'conv1_prelu')(x)
+	x = stack_fn(x, nname)
 
-	model = training.Model(img_input, x, name='ArcFace')
+	model = training.Model(img_input, x, name=nname+'_ArcFace')
 
 	return model
 
@@ -87,8 +87,8 @@ def stack1(x, filters, blocks, stride1=2, name=None):
 		x = block1(x, filters, conv_shortcut=False, name=name + '_block' + str(i))
 	return x
 
-def stack_fn(x):
-	x = stack1(x, 64, 3, name='conv2')
-	x = stack1(x, 128, 4, name='conv3')
-	x = stack1(x, 256, 6, name='conv4')
-	return stack1(x, 512, 3, name='conv5')
+def stack_fn(x, nname):
+	x = stack1(x, 64, 3, name=nname+'conv2')
+	x = stack1(x, 128, 4, name=nname+'conv3')
+	x = stack1(x, 256, 6, name=nname+'conv4')
+	return stack1(x, 512, 3, name=nname+'conv5')
